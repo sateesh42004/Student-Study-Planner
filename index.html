@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Study Planner</title>
+    <meta
+      name="description"
+      content="Student Study Planner helps students manage study tasks, subjects, deadlines, and progress in a clean dashboard."
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <div class="brand-mark">📚</div>
+          <div class="brand-copy">
+            <h1>Student Study Planner</h1>
+            <p>Plan your study</p>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Main navigation">
+          <button class="nav-item active" type="button" data-view="dashboard">
+            <span>🏠</span>
+            Dashboard
+          </button>
+          <button class="nav-item" type="button" data-view="tasks">
+            <span>📋</span>
+            My Tasks
+          </button>
+          <button class="nav-item" type="button" data-view="subjects">
+            <span>📚</span>
+            Subjects
+          </button>
+          <button class="nav-item" type="button" data-view="progress">
+            <span>📊</span>
+            Progress
+          </button>
+        </nav>
+
+        <div class="focus-card">
+          <p>Today's focus</p>
+          <strong id="focusLabel">Stay consistent</strong>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div class="topbar-left">
+            <button
+              id="mobileMenuBtn"
+              class="mobile-menu-btn"
+              type="button"
+              aria-label="Toggle navigation"
+            >
+              ☰
+            </button>
+            <div>
+              <p class="eyebrow">Overview</p>
+              <h2 id="pageTitle">Dashboard</h2>
+            </div>
+          </div>
+
+          <div class="topbar-right">
+            <div class="date-pill" id="currentDate">Loading date...</div>
+            <div class="avatar" aria-label="User profile">S</div>
+          </div>
+        </header>
+
+        <section id="dashboardView" class="page-view active" aria-label="Dashboard">
+          <div class="welcome-card">
+            <div>
+              <p id="welcomeMessage" class="welcome-message">Good Morning! 👋</p>
+              <h3>Stay focused and make progress today.</h3>
+            </div>
+            <div class="quick-actions">
+              <button class="primary-btn" id="dashboardAddTaskBtn" type="button">+ Add Study Task</button>
+              <button class="secondary-btn" id="viewTasksBtn" type="button">View All Tasks</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <p>Total Tasks</p>
+              <h3 id="totalTasksStat">0</h3>
+            </article>
+            <article class="stat-card success">
+              <p>Completed</p>
+              <h3 id="completedTasksStat">0</h3>
+            </article>
+            <article class="stat-card warning">
+              <p>Pending</p>
+              <h3 id="pendingTasksStat">0</h3>
+            </article>
+            <article class="stat-card accent">
+              <p>Completion %</p>
+              <h3 id="completionStat">0%</h3>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel-card progress-panel">
+              <div class="panel-header">
+                <h3>Today's Progress</h3>
+                <span id="todayProgressText">0%</span>
+              </div>
+              <div class="progress-track large">
+                <span id="todayProgressBar" class="progress-fill"></span>
+              </div>
+            </article>
+
+            <article class="panel-card mini-panel">
+              <div class="panel-header">
+                <h3>Quick Notes</h3>
+              </div>
+              <ul class="bullet-list">
+                <li>Review the most important subject first.</li>
+                <li>Break large tasks into smaller study blocks.</li>
+                <li>Keep the next deadline visible.</li>
+              </ul>
+            </article>
+          </div>
+
+          <article class="panel-card">
+            <div class="panel-header">
+              <h3>Today's Tasks</h3>
+              <button class="text-btn" id="todayTasksAddBtn" type="button">+ Add Study Task</button>
+            </div>
+            <div id="todayTasksList" class="task-list compact"></div>
+          </article>
+        </section>
+
+        <section id="tasksView" class="page-view" aria-label="My Tasks">
+          <div class="toolbar">
+            <div class="search-wrap">
+              <span>🔎</span>
+              <input
+                id="taskSearchInput"
+                type="search"
+                placeholder="Search tasks or subjects..."
+                aria-label="Search tasks"
+              />
+            </div>
+
+            <div class="filter-group">
+              <select id="statusFilter" aria-label="Filter by status">
+                <option value="all">All Status</option>
+                <option value="completed">Completed</option>
+                <option value="pending">Pending</option>
+              </select>
+
+              <select id="subjectFilter" aria-label="Filter by subject">
+                <option value="all">All Subjects</option>
+              </select>
+
+              <select id="priorityFilter" aria-label="Filter by priority">
+                <option value="all">All Priorities</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+
+              <select id="sortSelect" aria-label="Sort tasks">
+                <option value="date">Sort by Date</option>
+                <option value="priority">Sort by Priority</option>
+                <option value="recent">Recently Added</option>
+              </select>
+            </div>
+
+            <button class="primary-btn" id="addTaskBtn" type="button">+ Add Study Task</button>
+          </div>
+
+          <div id="taskList" class="task-list" aria-live="polite"></div>
+        </section>
+
+        <section id="subjectsView" class="page-view" aria-label="Subjects">
+          <div class="section-header-row">
+            <h3>Subjects</h3>
+          </div>
+          <div id="subjectsGrid" class="subjects-grid"></div>
+          <div id="subjectTasksContainer" class="subject-tasks-panel">
+            <div id="subjectTaskList" class="task-list"></div>
+          </div>
+        </section>
+
+        <section id="progressView" class="page-view" aria-label="Progress">
+          <div class="progress-summary-card">
+            <div>
+              <p class="eyebrow">Overall Progress</p>
+              <h3 id="overallProgressValue">0%</h3>
+            </div>
+            <div class="progress-track large">
+              <span id="overallProgressBar" class="progress-fill"></span>
+            </div>
+          </div>
+
+          <div class="stats-grid compact-stats">
+            <article class="stat-card">
+              <p>Total Tasks</p>
+              <h3 id="progressTotalTasks">0</h3>
+            </article>
+            <article class="stat-card success">
+              <p>Completed Tasks</p>
+              <h3 id="progressCompletedTasks">0</h3>
+            </article>
+            <article class="stat-card warning">
+              <p>Pending Tasks</p>
+              <h3 id="progressPendingTasks">0</h3>
+            </article>
+          </div>
+
+          <article class="panel-card">
+            <div class="panel-header">
+              <h3>Subject-wise Progress</h3>
+            </div>
+            <div id="subjectProgressList" class="subject-progress-list"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div id="taskModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close="task"></div>
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+        <div class="modal-header">
+          <h3 id="taskModalTitle">Add Study Task</h3>
+          <button type="button" class="close-btn" data-close="task" aria-label="Close">
+            ×
+          </button>
+        </div>
+
+        <form id="taskForm" novalidate>
+          <div class="form-group">
+            <label for="taskTitleInput">Task Title</label>
+            <input id="taskTitleInput" name="title" type="text" placeholder="Study Process Scheduling" />
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="taskSubjectInput">Subject</label>
+              <select id="taskSubjectInput" name="subject">
+                <option value="">Select a subject</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="taskDateInput">Date</label>
+              <input id="taskDateInput" name="date" type="date" />
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="taskPriorityInput">Priority</label>
+              <select id="taskPriorityInput" name="priority">
+                <option value="">Select priority</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="taskTimeInput">Estimated Study Time (hours)</label>
+              <input id="taskTimeInput" name="studyTime" type="number" min="0.5" step="0.5" placeholder="2" />
+            </div>
+          </div>
+
+          <p id="taskFormError" class="form-error" aria-live="polite"></p>
+
+          <div class="modal-actions">
+            <button type="button" class="secondary-btn" data-close="task">Cancel</button>
+            <button type="submit" class="primary-btn">Save Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="deleteModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close="delete"></div>
+      <div class="modal-dialog small" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+        <div class="modal-header">
+          <h3 id="deleteModalTitle">Delete Task</h3>
+          <button type="button" class="close-btn" data-close="delete" aria-label="Close">
+            ×
+          </button>
+        </div>
+
+        <p class="delete-message">Are you sure you want to delete this task?</p>
+
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" data-close="delete">Cancel</button>
+          <button type="button" class="danger-btn" id="confirmDeleteBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
